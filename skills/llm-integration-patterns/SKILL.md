@@ -60,6 +60,8 @@ LLMs have no built-in memory; **vector stores** add it. (freeCodeCamp, vector-st
 - **Document-heavy pipelines:** LlamaParse (verified n8n community node, 2026-06-30) consolidates parse / classify / extract / split / retrieve behind one credential, each a callable agent tool — good for "classify a doc, then extract fields" routing.
 - **Browser-aware agents:** Safari MCP (freeCodeCamp 2026-05-28) bridges an agent to a logged-in browser session vs. headless tooling.
 
+- **RAG upkeep (added 2026-10-08):** re-index on every source change (stale vectors are a top production failure); pick `k`/chunk size from a retrieval hit-rate eval, not from tutorial defaults (`k=2`, 500/50 are demo values).
+
 ## Mapping to n8n
 
 n8n implements all four patterns in one canvas:

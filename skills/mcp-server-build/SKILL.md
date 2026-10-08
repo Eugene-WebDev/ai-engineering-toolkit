@@ -169,6 +169,18 @@ class RemoteMCP:
 ⚠️ **Retry/timeout belong here, not in the agent loop.** If the agent retries, it
 re-reasons; if the access layer retries, it just re-requests. Only the second is cheap.
 
+## 10. Design the API behind your tools (added 2026-10-08)
+
+Agents read descriptions and error bodies literally (source: freeCodeCamp "How to Design APIs for AI Agents", 2026-05-28):
+- **Coarse tools aligned to outcomes**, not one tool per micro-endpoint; document common sequences.
+- Descriptions say **when** to use the tool, not just what it returns; every param has a description, an example, `enum` for closed sets, honest `required`.
+- **Errors as structured data** (RFC 7807 problem+json: stable `error_code`, `detail`, offending `field`, `doc_url`) so the agent can self-correct instead of retrying blindly.
+- **Idempotency keys** on creates; return what changed (ids, new state, next allowed actions).
+- Long work → `202` + job id + terminal states (same as §3).
+- High-impact actions → **two-step**: create intent → confirm (pairs with HITL).
+- Short-lived scoped tokens, read and write separated; rate limits that expect bursts; correlation ids in responses.
+- Anti-pattern: `200 {"ok": true}` with no id, or 200-with-empty-list for an invalid id — both make agents confidently wrong.
+
 ## Checklist
 - [ ] FastMCP, `mcp[cli]` pinned `<2`, `transport="stdio"`
 - [ ] Tools return JSON strings; docstrings written for the model

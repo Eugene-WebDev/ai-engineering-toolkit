@@ -65,6 +65,13 @@ The win is the same as the rest of this skill: fewer bespoke `<div>` widgets, mo
 
 - **CAPTCHAs** are the anti-pattern of agent-readiness: visual/audio/time-based challenges block legitimate users and assistive tech alike. Prefer risk-based auth, device-trust signals, and human-friendly verification over challenge-gates on critical paths.
 
+## Active tier: WebMCP (optional, early — added 2026-10-08)
+
+Beyond being readable, a site can expose **tools** agents call directly (W3C Community Group draft "WebMCP"; source: freeCodeCamp, 2026-05-28).
+- Client-side: `navigator.modelContext` (`registerTool()` in the spec; the `@mcp-b/global` polyfill uses `provideContext()` and degrades silently elsewhere). Server-side: declarative manifest at `/.well-known/webmcp` (name, tools with `inputSchema`, `endpoint`, `method`) — location not canonical yet.
+- Status: partial in Chrome Canary, production support ~2027+, ~0% adoption, no production agent calls it yet. Treat as cheap future-proofing, never a substitute for semantic HTML and a clean accessibility tree.
+- **Read-only tools only** to start (search, structured content) — the spec defines no auth. Tool descriptions are untrusted input to agents (see `ai-agent-security`).
+
 ## Next steps
 
 Everything we suggest to make a site "agent-ready" also makes sites better for humans.
